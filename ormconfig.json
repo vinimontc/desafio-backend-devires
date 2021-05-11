@@ -4,5 +4,9 @@
   "host": "localhost",
   "username": "postgres",
   "password": "postgres",
-  "database": "database_app"
+  "database": "database_app",
+  "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+  }
 }
