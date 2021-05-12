@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, CreateDateColumn } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
-import { UserStatus } from "../../../enums/UserStatus";
+import { UserStatus } from "@modules/users/enums/UserStatus";
 
 @Entity("users")
 class User {

@@ -1,9 +1,9 @@
 import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
 
-import { UserStatus } from "../../enums/UserStatus";
-import { User } from "../../infra/typeorm/entities/User";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { UserStatus } from "@modules/users/enums/UserStatus";
+import { User } from "@modules/users/infra/typeorm/entities/User";
+import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 
 interface IRequest {
   name: string;
