@@ -1,10 +1,14 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn } from "typeorm";
-import { v4 as uuidV4 } from "uuid";
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity("user_types")
 class UserType {
-  @PrimaryColumn()
-  id?: string;
+  @PrimaryGeneratedColumn()
+  id?: number;
 
   @Column()
   title: string;
@@ -14,12 +18,6 @@ class UserType {
 
   @CreateDateColumn()
   created_at: Date;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidV4();
-    }
-  }
 }
 
 export { UserType };

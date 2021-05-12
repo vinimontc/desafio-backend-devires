@@ -8,7 +8,8 @@ export class userTypesTable1620840492323 implements MigrationInterface {
         columns: [
           {
             name: "id",
-            type: "uuid",
+            type: "integer",
+            generationStrategy: "increment",
             isPrimary: true,
           },
           {

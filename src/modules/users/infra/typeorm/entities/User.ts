@@ -27,7 +27,7 @@ class User {
   password: string;
 
   @Column()
-  type_id: string;
+  type_id: number;
 
   @ManyToOne(() => UserType, (userType) => userType.id)
   @JoinColumn({ name: "type_id" })

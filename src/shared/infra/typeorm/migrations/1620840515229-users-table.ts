@@ -26,7 +26,7 @@ export class usersTable1620840515229 implements MigrationInterface {
           },
           {
             name: "type_id",
-            type: "uuid",
+            type: "integer",
           },
           {
             name: "status",
