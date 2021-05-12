@@ -4,7 +4,7 @@ interface ICreateUserDTO {
   name: string;
   email: string;
   password: string;
-  type: string;
+  type_id: string;
   status: UserStatus;
 }
 
