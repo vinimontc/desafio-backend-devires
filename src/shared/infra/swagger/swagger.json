@@ -86,16 +86,20 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Nome do usuário"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "example": "user@mail.com"
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "example": "password"
         },
         "type_id": {
-          "type": "number"
+          "type": "number",
+          "example": 1
         },
         "status": {
           "type": "string",
