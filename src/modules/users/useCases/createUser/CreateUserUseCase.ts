@@ -12,6 +12,7 @@ interface IRequest {
   password: string;
   type_id: number;
   status: UserStatus;
+  request_user_id: string;
 }
 
 @injectable()
@@ -27,7 +28,17 @@ class CreateUserUseCase {
     password,
     type_id,
     status,
+    request_user_id,
   }: IRequest): Promise<User> {
+    const requestUser = await this.usersRepository.findById(request_user_id);
+
+    if (
+      requestUser.type.title !== "root" &&
+      requestUser.type.title !== "admin"
+    ) {
+      throw new AppError("User is not authorized", 401);
+    }
+
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {
