@@ -8,7 +8,10 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
-    "seed:root:type": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seeds/root-type.ts"
+    "seed:root:type": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seeds/root-type.ts",
+    "seed:admin:type": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seeds/admin-type.ts",
+    "seed:geral:type": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seeds/geral-type.ts",
+    "seed:root:user": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seeds/root-user.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
