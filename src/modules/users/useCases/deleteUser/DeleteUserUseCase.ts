@@ -15,7 +15,13 @@ class DeleteUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ user_id }: IRequest): Promise<void> {
+  async execute({ request_user_id, user_id }: IRequest): Promise<void> {
+    const requestUser = await this.usersRepository.findById(request_user_id);
+
+    if (requestUser.type.title !== "root") {
+      throw new AppError("User is not authorized", 401);
+    }
+
     const userToBeDelete = await this.usersRepository.findById(user_id);
 
     if (!userToBeDelete) {
