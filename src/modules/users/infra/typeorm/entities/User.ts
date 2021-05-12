@@ -1,7 +1,16 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  CreateDateColumn,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
 import { UserStatus } from "@modules/users/enums/UserStatus";
+
+import { UserType } from "./UserType";
 
 @Entity("users")
 class User {
@@ -18,7 +27,11 @@ class User {
   password: string;
 
   @Column()
-  type: string;
+  type_id: string;
+
+  @ManyToOne(() => UserType, (userType) => userType.id)
+  @JoinColumn({ name: "type_id" })
+  type: UserType;
 
   @Column({ type: "enum", enum: UserStatus })
   status: UserStatus;
