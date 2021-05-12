@@ -81,6 +81,32 @@
       }
     }
   },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "type_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ativo",
+            "inativo"
+          ]
+        }
+      }
+    }  
+  },
   "components": {
     "securitySchemes": {
       "bearerAuth": {
