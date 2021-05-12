@@ -11,6 +11,10 @@ const createUserController = new CreateUserController();
 const deleteUserController = new DeleteUserController();
 
 usersRoutes.post("/", ensureAuthenticated, createUserController.handle);
-usersRoutes.delete("/:user_id", deleteUserController.handle);
+usersRoutes.delete(
+  "/:user_id",
+  ensureAuthenticated,
+  deleteUserController.handle
+);
 
 export { usersRoutes };
