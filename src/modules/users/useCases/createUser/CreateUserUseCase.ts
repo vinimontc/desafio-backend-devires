@@ -9,7 +9,7 @@ interface IRequest {
   name: string;
   email: string;
   password: string;
-  type: string;
+  type_id: string;
   status: UserStatus;
 }
 
@@ -24,7 +24,7 @@ class CreateUserUseCase {
     name,
     email,
     password,
-    type,
+    type_id,
     status,
   }: IRequest): Promise<User> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
@@ -39,7 +39,7 @@ class CreateUserUseCase {
       name,
       email,
       password: passwordHash,
-      type,
+      type_id,
       status,
     });
 
