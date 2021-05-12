@@ -48,4 +48,39 @@ describe("Create User", () => {
     expect(user).toHaveProperty("id");
     expect(user.name).toEqual("Clayton Carson");
   });
+
+  it("should be able to create a new user with admin requester", async () => {
+    const adminType = await userTypesRepositoryInMemory.create({
+      title: "admin",
+      description:
+        "Usuário com permissões completas na aplicação, com exceção da funcionalidade de exclusão de usuário.",
+    });
+
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const adminUser = await usersRepositoryInMemory.create({
+      name: "Joseph Rogers",
+      email: "desa@waz.sd",
+      password: "123456",
+      type_id: adminType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    adminUser.type = adminType;
+
+    const user = await createUserUseCase.execute({
+      name: "Clayton Carson",
+      email: "cagpapof@zaf.sv",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+      request_user_id: adminUser.id,
+    });
+
+    expect(user).toHaveProperty("id");
+    expect(user.name).toEqual("Clayton Carson");
+  });
 });
