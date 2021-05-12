@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class usersTable1620774794292 implements MigrationInterface {
+export class usersTable1620840515229 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -25,8 +25,8 @@ export class usersTable1620774794292 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "type",
-            type: "varchar",
+            name: "type_id",
+            type: "uuid",
           },
           {
             name: "status",
@@ -37,6 +37,16 @@ export class usersTable1620774794292 implements MigrationInterface {
             name: "created_at",
             type: "timestamp",
             default: "now()",
+          },
+        ],
+        foreignKeys: [
+          {
+            name: "FKTypeUser",
+            columnNames: ["type_id"],
+            referencedTableName: "user_types",
+            referencedColumnNames: ["id"],
+            onUpdate: "CASCADE",
+            onDelete: "CASCADE",
           },
         ],
       })
