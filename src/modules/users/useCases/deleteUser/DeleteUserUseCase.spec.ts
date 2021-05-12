@@ -74,4 +74,28 @@ describe("Delete User", () => {
       })
     ).rejects.toEqual(new AppError("User is not authorized", 401));
   });
+
+  it("should not be able to delete a nonexistent user", async () => {
+    const rootType = await userTypesRepositoryInMemory.create({
+      title: "root",
+      description: "Usuário com permissões completas na aplicação.",
+    });
+
+    const requestUser = await usersRepositoryInMemory.create({
+      name: "Lora Russell",
+      email: "gehsuto@du.bt",
+      password: "123456",
+      type_id: rootType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    requestUser.type = rootType;
+
+    await expect(
+      deleteUserUseCase.execute({
+        request_user_id: requestUser.id,
+        user_id: "fake-user-id",
+      })
+    ).rejects.toEqual(new AppError("User does not exists", 404));
+  });
 });
