@@ -54,7 +54,7 @@
     "/users": {
       "post": {
         "tags": ["Users"],
-        "summary": "Create an user",
+        "summary": "Create a user",
         "security": [
           { "bearerAuth": [] }
         ],

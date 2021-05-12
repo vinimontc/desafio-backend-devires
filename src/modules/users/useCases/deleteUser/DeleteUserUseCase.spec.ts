@@ -15,7 +15,7 @@ describe("Delete User", () => {
     deleteUserUseCase = new DeleteUserUseCase(usersRepositoryInMemory);
   });
 
-  it("should be able to delete an user", async () => {
+  it("should be able to delete a user", async () => {
     const rootType = await userTypesRepositoryInMemory.create({
       title: "root",
       description: "Usuário com permissões completas na aplicação.",
