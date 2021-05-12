@@ -1,5 +1,8 @@
+import "reflect-metadata";
+
 import express from "express";
 
+import "./shared/container";
 import "./shared/infra/typeorm";
 import { router } from "./shared/infra/http/routes";
 
