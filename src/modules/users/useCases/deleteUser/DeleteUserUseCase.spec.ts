@@ -1,6 +1,7 @@
 import { UserStatus } from "@modules/users/enums/UserStatus";
 import { UsersRepositoryInMemory } from "@modules/users/repositories/in-memory/UsersRepositoryInMemory";
 import { UserTypesRepositoryInMemory } from "@modules/users/repositories/in-memory/UserTypesRepositoryInMemory";
+import { AppError } from "@shared/errors/AppError";
 
 import { DeleteUserUseCase } from "./DeleteUserUseCase";
 
@@ -47,5 +48,30 @@ describe("Delete User", () => {
     const result = await usersRepositoryInMemory.findById(user.id);
 
     expect(result).toBeUndefined();
+  });
+
+  it("should not be able to delete a user with an unauthorized requester", async () => {
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description:
+        "Usuário com permissões limitadas aos seus dados e informações.",
+    });
+
+    const requestUser = await usersRepositoryInMemory.create({
+      name: "Lora Russell",
+      email: "gehsuto@du.bt",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    requestUser.type = geralType;
+
+    await expect(
+      deleteUserUseCase.execute({
+        request_user_id: requestUser.id,
+        user_id: "user-fake-id",
+      })
+    ).rejects.toEqual(new AppError("User is not authorized", 401));
   });
 });
