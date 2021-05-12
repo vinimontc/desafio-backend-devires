@@ -112,4 +112,37 @@ describe("Create User", () => {
       })
     ).rejects.toEqual(new AppError("User is not authorized", 401));
   });
+
+  it("should not be able to create a new user with an already registered email", async () => {
+    const rootType = await userTypesRepositoryInMemory.create({
+      title: "root",
+      description: "Usuário com permissões completas na aplicação.",
+    });
+
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const rootUser = await usersRepositoryInMemory.create({
+      name: "Joseph Rogers",
+      email: "email.comum@test.com",
+      password: "123456",
+      type_id: rootType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    rootUser.type = rootType;
+
+    await expect(
+      createUserUseCase.execute({
+        name: "Clayton Carson",
+        email: "email.comum@test.com",
+        password: "123456",
+        type_id: geralType.id,
+        status: UserStatus.ATIVO,
+        request_user_id: rootUser.id,
+      })
+    ).rejects.toEqual(new AppError("User already exists"));
+  });
 });
