@@ -1,6 +1,7 @@
 import { UserStatus } from "@modules/users/enums/UserStatus";
 import { UsersRepositoryInMemory } from "@modules/users/repositories/in-memory/UsersRepositoryInMemory";
 import { UserTypesRepositoryInMemory } from "@modules/users/repositories/in-memory/UserTypesRepositoryInMemory";
+import { AppError } from "@shared/errors/AppError";
 
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
@@ -82,5 +83,33 @@ describe("Create User", () => {
 
     expect(user).toHaveProperty("id");
     expect(user.name).toEqual("Clayton Carson");
+  });
+
+  it("should not be able to create a new user with an unauthorized requester", async () => {
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const requestUser = await usersRepositoryInMemory.create({
+      name: "Lora Russell",
+      email: "gehsuto@du.bt",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    requestUser.type = geralType;
+
+    await expect(
+      createUserUseCase.execute({
+        name: "Jean Holloway",
+        email: "wos@cac.tj",
+        password: "123456",
+        type_id: geralType.id,
+        status: UserStatus.ATIVO,
+        request_user_id: requestUser.id,
+      })
+    ).rejects.toEqual(new AppError("User is not authorized", 401));
   });
 });
