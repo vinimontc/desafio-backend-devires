@@ -62,4 +62,37 @@ describe("Authenticate User", () => {
       })
     ).rejects.toEqual(new AppError("Email or password incorrect!"));
   });
+
+  it("should not be able to authenticate with incorrect password", async () => {
+    const rootType = await userTypesRepositoryInMemory.create({
+      title: "root",
+      description: "Usuário com permissões completas na aplicação.",
+    });
+
+    const rootUser = await usersRepositoryInMemory.create({
+      name: "Roxie Hubbard",
+      email: "cinid@wa.ca",
+      password: "123456",
+      type_id: rootType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    rootUser.type = rootType;
+
+    const user = await createUserUseCase.execute({
+      name: "Maria Murray",
+      email: "le@nusit.nr",
+      password: "123456",
+      type_id: 4,
+      status: UserStatus.ATIVO,
+      request_user_id: rootUser.id,
+    });
+
+    await expect(
+      authenticateUserUseCase.execute({
+        email: user.email,
+        password: "incorrectPassword",
+      })
+    ).rejects.toEqual(new AppError("Email or password incorrect!"));
+  });
 });
