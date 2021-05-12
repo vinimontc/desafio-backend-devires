@@ -4,12 +4,13 @@ import { inject, injectable } from "tsyringe";
 import { UserStatus } from "@modules/users/enums/UserStatus";
 import { User } from "@modules/users/infra/typeorm/entities/User";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
+import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
   name: string;
   email: string;
   password: string;
-  type_id: string;
+  type_id: number;
   status: UserStatus;
 }
 
@@ -30,7 +31,7 @@ class CreateUserUseCase {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {
-      throw new Error("User already exists");
+      throw new AppError("User already exists");
     }
 
     const passwordHash = await hash(password, 8);
