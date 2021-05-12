@@ -50,6 +50,35 @@
           }
         }
       }
+    },
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create an user",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success to create a new user"
+          },
+          "400": {
+            "description": "User already exists"
+          },
+          "401": {
+            "description": "User is not authorized"
+          }
+        }
+      }
     }
   },
   "components": {
