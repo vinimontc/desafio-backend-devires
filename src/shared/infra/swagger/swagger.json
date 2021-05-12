@@ -79,6 +79,37 @@
           }
         }
       }
+    },
+    "/users/{user_id}": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Deletes a user",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success to delete a user"
+          },
+          "401": {
+            "description": "User is not authorized"
+          },
+          "404": {
+            "description": "User does not exists"
+          }
+        }
+      }
     }
   },
   "definitions": {
