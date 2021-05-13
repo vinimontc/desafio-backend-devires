@@ -1,6 +1,8 @@
 # Desafio Devires - Backend
 
-Este é um projeto de gerenciamento de usuários desenvolvido de acordo com o teste encaminhado pela Devires.
+Projeto de gerenciamento de usuários desenvolvido para atender aos requisitos propostos no desafio da Devires.
+
+API desenvolvida com NodeJS + TypeScript.
 
 ## Como rodar o projeto:
 
