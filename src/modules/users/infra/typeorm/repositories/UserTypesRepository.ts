@@ -22,6 +22,12 @@ class UserTypesRepository implements IUserTypesRepository {
 
     return userType;
   }
+
+  async findById(id: number): Promise<UserType> {
+    const userType = await this.repository.findOne(id);
+
+    return userType;
+  }
 }
 
 export { UserTypesRepository };
