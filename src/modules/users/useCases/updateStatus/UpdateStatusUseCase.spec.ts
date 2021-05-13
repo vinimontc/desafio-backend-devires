@@ -81,4 +81,28 @@ describe("Update User Status", () => {
       })
     ).rejects.toEqual(new AppError("User is not authorized", 401));
   });
+
+  it("should not be able to update the status of a non-existent user", async () => {
+    const rootType = await userTypesRepositoryInMemory.create({
+      title: "root",
+      description: "Usuário com permissões completas na aplicação.",
+    });
+
+    const rootUser = await usersRepositoryInMemory.create({
+      name: "Jessie Holland",
+      email: "wok@woun.ht",
+      password: "123456",
+      type_id: rootType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    rootUser.type = rootType;
+
+    await expect(
+      updateStatusUseCase.execute({
+        request_user_id: rootUser.id,
+        user_id: "non-existent-user",
+      })
+    ).rejects.toEqual(new AppError("User does not exists", 404));
+  });
 });
