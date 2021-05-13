@@ -107,7 +107,7 @@ describe("Update User", () => {
     ).rejects.toEqual(new AppError("User is not authorized", 401));
   });
 
-  it("should not be able to update an non-existent user", async () => {
+  it("should not be able to update a non-existent user", async () => {
     const rootType = await userTypesRepositoryInMemory.create({
       title: "root",
       description: "Usuário com permissões completas na aplicação.",
@@ -132,5 +132,78 @@ describe("Update User", () => {
         user_id: "fake-user-id",
       })
     ).rejects.toEqual(new AppError("User does not exists", 404));
+  });
+
+  it("should not be able to update a user type with an unauthorized requester", async () => {
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const normalUser = await usersRepositoryInMemory.create({
+      name: "Joseph Rogers",
+      email: "desa@waz.sd",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    normalUser.type = geralType;
+
+    await expect(
+      updateUserUseCase.execute({
+        name: "Nome atualizado",
+        email: "email.atualizado@mail.com",
+        password: "senha atualizada",
+        type_id: 100,
+        request_user_id: normalUser.id,
+        user_id: normalUser.id,
+      })
+    ).rejects.toEqual(
+      new AppError("This user do not have permission to change the type")
+    );
+  });
+
+  it("should not be able to save an email already registered", async () => {
+    const rootType = await userTypesRepositoryInMemory.create({
+      title: "root",
+      description: "Usuário com permissões completas na aplicação.",
+    });
+
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const rootUser = await usersRepositoryInMemory.create({
+      name: "Root User",
+      email: "email.registrado@mail.com",
+      password: "123456",
+      type_id: rootType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    rootUser.type = rootType;
+
+    const user = await usersRepositoryInMemory.create({
+      name: "Christian Kelley",
+      email: "uztief@hen.cx",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    user.type = geralType;
+
+    await expect(
+      updateUserUseCase.execute({
+        name: "Nome atualizado",
+        email: "email.registrado@mail.com",
+        password: "senha atualizada",
+        type_id: geralType.id,
+        request_user_id: rootUser.id,
+        user_id: user.id,
+      })
+    ).rejects.toEqual(new AppError("Email already in use"));
   });
 });
