@@ -1,6 +1,7 @@
 import { getRepository, Repository } from "typeorm";
 
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { UserStatus } from "@modules/users/enums/UserStatus";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 
 import { User } from "../entities/User";
@@ -51,6 +52,16 @@ class UsersRepository implements IUsersRepository {
 
   async delete(id: string): Promise<void> {
     await this.repository.delete(id);
+  }
+
+  async updateStatus(id: string, status: UserStatus): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({ status })
+      .where("id = :id", { id })
+      .setParameters({ status })
+      .execute();
   }
 }
 
