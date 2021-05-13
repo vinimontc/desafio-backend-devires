@@ -1,6 +1,7 @@
 import { getRepository, Repository } from "typeorm";
 
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { ISaveUserDTO } from "@modules/users/dtos/ISaveUserDTO";
 import { UserStatus } from "@modules/users/enums/UserStatus";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 
@@ -21,6 +22,28 @@ class UsersRepository implements IUsersRepository {
     status,
   }: ICreateUserDTO): Promise<User> {
     const user = this.repository.create({
+      name,
+      email,
+      password,
+      type_id,
+      status,
+    });
+
+    await this.repository.save(user);
+
+    return user;
+  }
+
+  async save({
+    id,
+    name,
+    email,
+    password,
+    type_id,
+    status,
+  }: ISaveUserDTO): Promise<User> {
+    const user = this.repository.create({
+      id,
       name,
       email,
       password,

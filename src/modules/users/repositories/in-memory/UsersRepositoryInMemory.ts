@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { ISaveUserDTO } from "@modules/users/dtos/ISaveUserDTO";
 import { UserStatus } from "@modules/users/enums/UserStatus";
 import { User } from "@modules/users/infra/typeorm/entities/User";
 
@@ -27,6 +28,25 @@ class UsersRepositoryInMemory implements IUsersRepository {
     this.users.push(user);
 
     return user;
+  }
+
+  async save({
+    id,
+    name,
+    email,
+    password,
+    type_id,
+    status,
+  }: ISaveUserDTO): Promise<User> {
+    const findIndex = this.users.findIndex((user) => user.id === id);
+
+    this.users[findIndex].name = name;
+    this.users[findIndex].email = email;
+    this.users[findIndex].password = password;
+    this.users[findIndex].type_id = type_id;
+    this.users[findIndex].status = status;
+
+    return this.users[findIndex];
   }
 
   async findByEmail(email: string): Promise<User> {
