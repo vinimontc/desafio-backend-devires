@@ -105,4 +105,38 @@ describe("Update User Status", () => {
       })
     ).rejects.toEqual(new AppError("User does not exists", 404));
   });
+
+  it("should be able to update a user status from inactive for active", async () => {
+    const rootType = await userTypesRepositoryInMemory.create({
+      title: "root",
+      description: "Usuário com permissões completas na aplicação.",
+    });
+
+    const rootUser = await usersRepositoryInMemory.create({
+      name: "Gavin Armstrong",
+      email: "dubet@vijsu.as",
+      password: "123456",
+      type_id: rootType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    rootUser.type = rootType;
+
+    const user = await usersRepositoryInMemory.create({
+      name: "Dominic King",
+      email: "zer@maghutbun.my",
+      password: "123456",
+      type_id: 100,
+      status: UserStatus.INATIVO,
+    });
+
+    await updateStatusUseCase.execute({
+      request_user_id: rootUser.id,
+      user_id: user.id,
+    });
+
+    const userUpdated = await usersRepositoryInMemory.findById(user.id);
+
+    expect(userUpdated.status).toEqual("ativo");
+  });
 });
