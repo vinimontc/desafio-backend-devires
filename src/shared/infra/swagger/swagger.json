@@ -110,6 +110,23 @@
           }
         }
       }
+    },
+    "/users/types": {
+      "get": {
+        "tags": ["User Types"],
+        "summary": "List all user types",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success to list user types"
+          },
+          "401": {
+            "description": "User is not authorized"
+          }
+        }
+      }
     }
   },
   "definitions": {
