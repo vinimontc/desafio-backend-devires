@@ -18,6 +18,16 @@ class UserTypesRepositoryInMemory implements IUserTypesRepository {
 
     return userType;
   }
+
+  async findById(id: number): Promise<UserType> {
+    return this.userTypes.find((userType) => userType.id === id);
+  }
+
+  async list(): Promise<UserType[]> {
+    const allUserTypes = this.userTypes;
+
+    return allUserTypes;
+  }
 }
 
 export { UserTypesRepositoryInMemory };
