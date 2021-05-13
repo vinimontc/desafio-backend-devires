@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { UserStatus } from "@modules/users/enums/UserStatus";
 import { User } from "@modules/users/infra/typeorm/entities/User";
 
 import { IUsersRepository } from "../IUsersRepository";
@@ -40,6 +41,12 @@ class UsersRepositoryInMemory implements IUsersRepository {
     const user = this.users.find((user) => user.id === id);
 
     this.users.splice(this.users.indexOf(user));
+  }
+
+  async updateStatus(id: string, status: UserStatus): Promise<void> {
+    const findIndex = this.users.findIndex((user) => user.id === id);
+
+    this.users[findIndex].status = status;
   }
 }
 
