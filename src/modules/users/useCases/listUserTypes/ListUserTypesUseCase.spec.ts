@@ -38,4 +38,23 @@ describe("Delete User", () => {
     expect(allTypes).toHaveLength(1);
     expect(allTypes[0].id).toEqual(rootType.id);
   });
+
+  it("should not be able to delete a user with an unauthorized requester", async () => {
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const requestUser = await usersRepositoryInMemory.create({
+      name: "Lora Russell",
+      email: "gehsuto@du.bt",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    await expect(listUserTypesUseCase.execute(requestUser.id)).rejects.toEqual(
+      new AppError("User is not authorized", 401)
+    );
+  });
 });
