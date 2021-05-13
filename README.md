@@ -42,7 +42,7 @@ E-mail: `master@root.com.br`
 
 Senha: `root`
 
-- Foi disponibilizado na raiz do projeto a collection utilizada no Imsomnia para a realização de testes durante o desenvolvimento.
+- Foi disponibilizado na raiz do projeto a collection utilizada no Insomnia para a realização de testes durante o desenvolvimento.
 
 ## Principais dependências utilizadas:
 
