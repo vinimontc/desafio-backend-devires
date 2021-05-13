@@ -5,6 +5,7 @@ import { DeleteUserController } from "@modules/users/useCases/deleteUser/DeleteU
 import { ListUserTypesController } from "@modules/users/useCases/listUserTypes/ListUserTypesController";
 import { ShowUserProfileController } from "@modules/users/useCases/showUserProfile/ShowUserProfileController";
 import { UpdateStatusController } from "@modules/users/useCases/updateStatus/UpdateStatusController";
+import { UpdateUserController } from "@modules/users/useCases/updateUser/UpdateUserController";
 
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
@@ -15,6 +16,7 @@ const deleteUserController = new DeleteUserController();
 const listUserTypesController = new ListUserTypesController();
 const showUserProfileController = new ShowUserProfileController();
 const updateStatusController = new UpdateStatusController();
+const updateUserController = new UpdateUserController();
 
 usersRoutes.post("/", ensureAuthenticated, createUserController.handle);
 usersRoutes.delete(
@@ -33,5 +35,6 @@ usersRoutes.patch(
   ensureAuthenticated,
   updateStatusController.handle
 );
+usersRoutes.put("/:user_id", ensureAuthenticated, updateUserController.handle);
 
 export { usersRoutes };
