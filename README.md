@@ -26,7 +26,9 @@ ou
 
 ## Documentação:
 
-Para documentação da API foi utilizado o Swagger (https://swagger.io/) e disponibilizada na seguinte rota:
+Para realizar a documentação da API foi utilizado a ferramenta Swagger (https://swagger.io/). 
+
+Para a consulta da documentação acessar a seguinte rota:
 
 `http://localhost:3333/api-docs`
 
