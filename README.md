@@ -31,7 +31,9 @@ Para documentação da API foi utilizado o Swagger (https://swagger.io/) e dispo
 
 `http://localhost:3333/api-docs`
 
-## Observações importantes:
+## Observações e informações importantes:
+
+- O projeto e o banco de dados está configurado para rodar na porta "3333" e "5432" respectivamente.
 
 - Os comandos de inicialização realizam a crição de um usuário do tipo root para que o resto das rotas possam ser utilizadas e testadas, segue abaixo as credenciais desse usuário:
 
