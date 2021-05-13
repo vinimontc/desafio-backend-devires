@@ -71,4 +71,39 @@ describe("Update User", () => {
     expect(userUpdated.email).toEqual("email.atualizado@mail.com");
     expect(userUpdated.type_id).toEqual(adminType.id);
   });
+
+  it("should not be able to update a user with an unauthorized requester", async () => {
+    const geralType = await userTypesRepositoryInMemory.create({
+      title: "geral",
+      description: "Usuário com permissões limitadas as suas informações.",
+    });
+
+    const normalUser = await usersRepositoryInMemory.create({
+      name: "Joseph Rogers",
+      email: "desa@waz.sd",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    normalUser.type = geralType;
+
+    const user = await usersRepositoryInMemory.create({
+      name: "Lillian Blair",
+      email: "cubzasav@lu.cu",
+      password: "123456",
+      type_id: geralType.id,
+      status: UserStatus.ATIVO,
+    });
+
+    await expect(
+      updateUserUseCase.execute({
+        name: "Nome atualizado",
+        email: "email.atualizado@mail.com",
+        password: "senha atualizada",
+        request_user_id: normalUser.id,
+        user_id: user.id,
+      })
+    ).rejects.toEqual(new AppError("User is not authorized", 401));
+  });
 });
