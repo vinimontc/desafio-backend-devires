@@ -127,6 +127,34 @@
           }
         }
       }
+    },
+    "/users/profile/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Show a user profile",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User id to show your profile",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success to show a profile"
+          },
+          "401": {
+            "description": "User is not authorized"
+          }
+        }
+      }
     }
   },
   "definitions": {
