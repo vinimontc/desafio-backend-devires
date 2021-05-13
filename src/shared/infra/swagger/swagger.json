@@ -155,6 +155,37 @@
           }
         }
       }
+    },
+    "users/status/{user_id}": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update a user status",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User id to update your status",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success to update a user status"
+          },
+          "401": {
+            "description": "User is not authorized"
+          },
+          "404": {
+            "description": "User does not exists"
+          }
+        }
+      }
     }
   },
   "definitions": {
