@@ -17,7 +17,7 @@ ou
 
 `docker-compose up -d`
 
-### 3. Crie as informações do banco com o comando:
+### 3. Crie as tabelas e as informações estáticas do banco com o comando:
 
 `yarn start:db`
 
