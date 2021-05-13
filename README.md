@@ -1,7 +1,6 @@
 # Desafio Devires - Backend
 
-Este é um projeto de uma API REST com objetivo de gerenciar a programação de um evento.
-Para rodar o projeto em sua maquina é necessário as ferramentas abaixo:
+Este é um projeto de gerenciamento de usuários desenvolvido de acordo com o teste encaminhado pela Devires.
 
 ## Como rodar o projeto:
 
