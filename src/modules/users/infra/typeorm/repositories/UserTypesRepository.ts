@@ -28,6 +28,12 @@ class UserTypesRepository implements IUserTypesRepository {
 
     return userType;
   }
+
+  async list(): Promise<UserType[]> {
+    const userTypes = await this.repository.find();
+
+    return userTypes;
+  }
 }
 
 export { UserTypesRepository };
